@@ -11,8 +11,8 @@ public class TcpEndpoint {
     @Autowired
     MessageService service;
 
-    @ServiceActivator(inputChannel="fromTcp")
-    public byte[] echo(byte[] bytes){
-        return bytes;
+    @ServiceActivator(inputChannel="mChannel")
+    public void echo(byte[] bytes){
+        service.process(bytes);
     }
 }
