@@ -14,6 +14,7 @@ import org.springframework.integration.ip.tcp.connection.AbstractClientConnectio
 import org.springframework.integration.ip.tcp.connection.AbstractServerConnectionFactory;
 import org.springframework.integration.ip.tcp.connection.TcpNetClientConnectionFactory;
 import org.springframework.integration.ip.tcp.connection.TcpNetServerConnectionFactory;
+import org.springframework.integration.ip.tcp.serializer.ByteArrayElasticRawDeserializer;
 import org.springframework.messaging.MessageChannel;
 
 
@@ -29,6 +30,8 @@ public class TcpConfig {
     @Bean
     public AbstractServerConnectionFactory serverConnectionFactory(){
         TcpNetServerConnectionFactory cf = new TcpNetServerConnectionFactory(port);
+        cf.setDeserializer(new ByteArrayElasticRawDeserializer());
+        cf.setSingleUse(true);
         cf.setSoKeepAlive(true);
         return cf;
     }
