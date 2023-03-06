@@ -1,4 +1,4 @@
-package com.gis.meteoserver;
+package com.gis.meteoserver.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,16 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.integration.ip.tcp.connection.AbstractClientConnectionFactory;
 import org.springframework.integration.ip.tcp.connection.TcpConnection;
 import org.springframework.messaging.support.GenericMessage;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 @RestController
+@RequestMapping("/api/message")
 public class MessageController {
     /**
      *
@@ -27,7 +25,7 @@ public class MessageController {
     @Autowired
     private AbstractClientConnectionFactory cf;
 
-    @GetMapping("/api/{message}")
+    @GetMapping("{message}")
     public ResponseEntity<String> sendMessage(@PathVariable String message) throws InterruptedException {
         cf.start();
         TcpConnection connection = cf.getConnection();
@@ -37,7 +35,7 @@ public class MessageController {
     }
 
 
-    @GetMapping("/api")
+    @GetMapping
     public ResponseEntity<StringBuilder> sendMessageTcpConnection(@RequestParam String message) throws IOException {
         Socket sock = new Socket("127.0.0.1", 8001);
         PrintWriter pw = new PrintWriter(sock.getOutputStream(), true);

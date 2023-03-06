@@ -1,6 +1,6 @@
 package com.gis.meteoserver.endpoint;
 
-import com.gis.meteoserver.service.MessageService;
+import com.gis.meteoserver.services.messaging.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.MessageEndpoint;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -9,10 +9,11 @@ import org.springframework.integration.annotation.ServiceActivator;
 public class TcpEndpoint {
 
     @Autowired
-    MessageService service;
+    private MessageService service;
 
     @ServiceActivator(inputChannel="mChannel")
-    public void echo(byte[] bytes){
+    public void echo(byte[] bytes) {
+        System.out.println("Message is received");
         service.process(bytes);
     }
 }
